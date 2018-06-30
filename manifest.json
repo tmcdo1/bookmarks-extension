@@ -20,6 +20,17 @@
         "gecko": {
            "id": "thomas.carnegie.1234@gmail.com"
         }
-     }
+     },
+
+    "permissions": [
+        "bookmarks"
+    ],
+    "background": {
+        "scripts": ["scripts/jquery-3.3.1.slim.min.js"]
+    },
+    "web_accessible_resources": [
+        "icons/outline_keyboard_arrow_right_black_48dp.png"
+    ]
+    
   
   }
