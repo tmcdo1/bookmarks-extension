@@ -1,0 +1,25 @@
+{
+
+    "manifest_version": 2,
+    "name": "EasyBookmark",
+    "version": "1.0",
+
+    "author": "Thomas McDonald",
+    "description": "Easy bookmark access",
+  
+    "icons": {
+      "48": "icons/outline_bookmarks_black_48dp.png"
+    },
+
+    "browser_action": {
+        "default_icon": "icons/outline_bookmarks_black_48dp.png",
+        "default_title": "EasyBookmark",
+        "default_popup": "popup/bookmarks.html"
+    },
+    "applications": {
+        "gecko": {
+           "id": "thomas.carnegie.1234@gmail.com"
+        }
+     }
+  
+  }
