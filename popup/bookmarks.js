@@ -59,13 +59,17 @@ function displayFolder(bookmarkItems) {
                 } else {
                     content += `<li id='${child.id}'>${childTitle}</li>`
                 }
-            } else    
+            } else if(child.type == 'bookmark')   
                 content += `<a href='${child.url}' data-title='${child.title}'><li id='${child.id}'>${childTitle}</li></a>`;
+            else 
+                content += '<hr>';
         }
     }
+
+    // Set the header
     if(item.id !== rootId) {
         let imgUrl = browser.extension.getURL('icons/outline_keyboard_arrow_left_black_48dp.png');
-        let innerHtml = `<div class='back' id='${item.parentId}'><span><img src='${imgUrl}'/></span>${title}</div>`;
+        let innerHtml = `<div class='back' id='${item.parentId}'><span><img src='${imgUrl}' class='back-btn'/></span>${title}</div>`;
         $('#folder-name').html(innerHtml);
     } else
         $('#folder-name').html(title);
