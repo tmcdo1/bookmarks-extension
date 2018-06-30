@@ -1,15 +1,23 @@
 
-var prevPage = '';
+// var prevPage = '';
 var rootId = '';
+const STRWIDTH = 20;
+
+function shortenString(str) {
+    if(str.length > STRWIDTH) {
+        str = str.substring(0,STRWIDTH-3) + '...'
+    }
+    return str;
+}
 
 // Used to change folder contents if folder is selected
 function clickListener() {
     document.addEventListener("click", (e) => {
         if(e.target.classList.contains('folder')) {
-            prevPage = $('body').html();
+            // prevPage = $('body').html();
             browser.bookmarks.getSubTree(e.target.id).then(displayFolder).catch(onRejected);
         } else if(e.target.classList.contains('back')) {
-            $('body').html(prevPage);
+            browser.bookmarks.getSubTree(e.target.id).then(displayFolder).catch(onRejected);
         }
     });
 }
@@ -30,7 +38,6 @@ function displayFolder(bookmarkItems) {
     // sets the root id if not already set
     if(rootId === "")
         rootId = item.id;
-    console.log('Root ID:', rootId);
 
     let content = '';
     
@@ -44,25 +51,37 @@ function displayFolder(bookmarkItems) {
     if(item.type === 'folder') {
         var children = item.children;
         for(let child of children) {
+            let childTitle = shortenString(child.title);
             if (child.type == 'folder') {
                 if (child.children.length > 0) {
                     let imgUrl = browser.extension.getURL('icons/outline_keyboard_arrow_right_black_48dp.png')
-                    content += `<li class='folder' id='${child.id}'>${child.title}<span><img src='${imgUrl}'/></span></li>`;
+                    content += `<li class='folder' id='${child.id}'>${childTitle}<span><img src='${imgUrl}'/></span></li>`;
                 } else {
-                    content += `<li id='${child.id}'>${child.title}</li>`
+                    content += `<li id='${child.id}'>${childTitle}</li>`
                 }
             } else    
-                content += `<a href='${child.url}'><li id='${child.id}'>${child.title}</li></a>`;
+                content += `<a href='${child.url}' data-title='${child.title}'><li id='${child.id}'>${childTitle}</li></a>`;
         }
     }
     if(item.id !== rootId) {
-        let imgUrl = browser.extension.getURL('');
-        let innerHtml = `<span><img src='${imgUrl}'/></span>${title}`;
+        let imgUrl = browser.extension.getURL('icons/outline_keyboard_arrow_left_black_48dp.png');
+        let innerHtml = `<div class='back' id='${item.parentId}'><span><img src='${imgUrl}'/></span>${title}</div>`;
         $('#folder-name').html(innerHtml);
-        $('#folder-name').addClass('back');
     } else
         $('#folder-name').html(title);
     $('#folder-contents').html(content);
+
+    $( "a" ).hover(
+        function() {   
+         var title = $(this).attr("data-title");  // extracts the title using the data-title attr applied to the 'a' tag
+          $('<div/>', { // creates a dynamic div element on the fly
+              text: title,
+              class: 'box'
+          }).appendTo(this);  // append to 'a' element
+        }, function() {
+          $(document).find("div.box").remove(); // on hover out, finds the dynamic element and removes it.
+        }
+      );
 
     // Add a listener for clicks for folders
     clickListener();
