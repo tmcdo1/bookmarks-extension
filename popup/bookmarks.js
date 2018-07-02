@@ -1,7 +1,7 @@
 
 // var prevPage = '';
 var rootId = '';
-const STRWIDTH = 20;
+const STRWIDTH = 40;
 
 function shortenString(str) {
     if(str.length > STRWIDTH) {
@@ -55,7 +55,7 @@ function displayFolder(bookmarkItems) {
             if (child.type == 'folder') {
                 if (child.children.length > 0) {
                     let imgUrl = browser.extension.getURL('icons/outline_keyboard_arrow_right_black_48dp.png')
-                    content += `<li class='folder' id='${child.id}'>${childTitle}<span><img src='${imgUrl}'/></span></li>`;
+                    content += `<li class='folder' id='${child.id}'>${childTitle}<span class='folder-arrow'><img src='${imgUrl}' class='folder-arrow'/></span></li>`;
                 } else {
                     content += `<li id='${child.id}'>${childTitle}</li>`
                 }
@@ -69,7 +69,7 @@ function displayFolder(bookmarkItems) {
     // Set the header
     if(item.id !== rootId) {
         let imgUrl = browser.extension.getURL('icons/outline_keyboard_arrow_left_black_48dp.png');
-        let innerHtml = `<div class='back' id='${item.parentId}'><span><img src='${imgUrl}' class='back-btn'/></span>${title}</div>`;
+        let innerHtml = `<div><span><img src='${imgUrl}' class='back-btn back' id='${item.parentId}'/></span>${title}</div>`;
         $('#folder-name').html(innerHtml);
     } else
         $('#folder-name').html(title);
