@@ -14,7 +14,8 @@
     "browser_action": {
         "default_icon": "icons/outline_bookmarks_black_48dp.png",
         "default_title": "EasyBookmark",
-        "default_popup": "popup/bookmarks.html"
+        "browser_style": true,
+        "default_popup": "bookmarks.html"
     },
     "applications": {
         "gecko": {
